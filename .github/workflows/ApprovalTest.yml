@@ -1,0 +1,27 @@
+name: "Manual Approval Workflow"
+
+on:
+  workflow_dispatch: # Trigger this workflow manually
+
+jobs:
+  start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Action Started"
+        run: echo "Action started"
+
+  wait-for-approval:
+    needs: start
+    runs-on: ubuntu-latest
+    environment: 
+      name: approval-environment  # Environment requiring manual approval
+    steps:
+      - name: "Approval Step"
+        run: echo "Waiting for approval..."
+
+  post-approval:
+    needs: wait-for-approval
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Action Approved"
+        run: echo "Action approved!"
